@@ -1,13 +1,13 @@
-import { memo, useCallback } from "react";
+import { memo } from "react";
 import { motion } from "framer-motion";
-import { Star, Plus } from "lucide-react";
+import { Star } from "lucide-react";
 import { Product, Portion } from "@/types/restaurant";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 
 interface ProductCardProps {
   product: Product;
-  onSelect: (product: Product) => void;
+  onSelect?: (product: Product) => void;
   isSpecialPriceActive: boolean;
   specialPriceName: string;
   formatPrice: (price: number) => string;
@@ -34,21 +34,15 @@ function getPriceDisplay(portion: Portion, isSpecialPriceActive: boolean) {
   return { displayPrice, originalPrice, priceType };
 }
 
-export const ProductCard = memo(function ProductCard({ 
-  product, 
-  onSelect, 
-  isSpecialPriceActive, 
+export const ProductCard = memo(function ProductCard({
+  product,
+  isSpecialPriceActive,
   specialPriceName,
-  formatPrice 
+  formatPrice,
 }: ProductCardProps) {
   const { t } = useTranslation();
   const firstPortion = product.portions[0];
   const { displayPrice, originalPrice, priceType } = getPriceDisplay(firstPortion, isSpecialPriceActive);
-  const hasMultiplePortions = product.portions.length > 1;
-
-  const handleClick = useCallback(() => {
-    onSelect(product);
-  }, [onSelect, product]);
 
   return (
     <motion.div
@@ -56,10 +50,7 @@ export const ProductCard = memo(function ProductCard({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      whileHover={{ y: -2 }}
-      whileTap={{ scale: 0.98 }}
-      onClick={handleClick}
-      className="group relative bg-card rounded-2xl shadow-card hover:shadow-card-hover transition-all duration-300 overflow-hidden cursor-pointer"
+      className="group relative bg-card rounded-2xl shadow-card overflow-hidden"
     >
       {/* Recommendation Badge */}
       {product.recommendation && (
@@ -86,10 +77,9 @@ export const ProductCard = memo(function ProductCard({
         <img
           src={product.imageURL}
           alt={product.name}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+          className="w-full h-full object-cover"
           loading="lazy"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-foreground/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
       </div>
 
       {/* Content */}
@@ -97,24 +87,11 @@ export const ProductCard = memo(function ProductCard({
         <h3 className="font-semibold text-foreground text-lg mb-1 line-clamp-1">{product.name}</h3>
         <p className="text-muted-foreground text-sm line-clamp-2 mb-3">{product.description}</p>
 
-        <div className="flex items-center justify-between">
-          <div className="flex items-baseline gap-2">
-            <span className="text-xl font-bold text-primary">{formatPrice(displayPrice)}</span>
-            {originalPrice && (
-              <span className="text-sm text-muted-foreground line-through">{formatPrice(originalPrice)}</span>
-            )}
-          </div>
-
-          <div className="flex items-center gap-2">
-            {hasMultiplePortions && (
-              <span className="text-xs text-muted-foreground">
-                {product.portions.length} {t("productCard.portion")}
-              </span>
-            )}
-            <button className="w-9 h-9 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-md hover:shadow-glow transition-all">
-              <Plus className="w-5 h-5" />
-            </button>
-          </div>
+        <div className="flex items-baseline gap-2">
+          <span className="text-xl font-bold text-primary">{formatPrice(displayPrice)}</span>
+          {originalPrice && (
+            <span className="text-sm text-muted-foreground line-through">{formatPrice(originalPrice)}</span>
+          )}
         </div>
       </div>
     </motion.div>
