@@ -138,10 +138,18 @@ export function useRestaurant() {
     return null;
   }, [data]);
 
+  // For TV menu mode, use tvMenuId to find the specific menu; otherwise fall back to activeMenu
+  const tvMenu = useMemo(() => {
+    if (data.tvMenuId == null) return null;
+    return data.menus.find(m => String(m.id) === String(data.tvMenuId)) || null;
+  }, [data]);
+
+  const effectiveMenu = tvMenu || activeMenu;
+
   const allowedCategoryIds = useMemo(() => {
-    if (!activeMenu) return null;
-    return new Set(activeMenu.categoryIds);
-  }, [activeMenu]);
+    if (!effectiveMenu) return null;
+    return new Set(effectiveMenu.categoryIds);
+  }, [effectiveMenu]);
 
   const categories = useMemo((): Category[] => {
     const allVisible = data.products.filter(p => !p.hide);

@@ -140,6 +140,7 @@ export interface RestaurantData {
   inPersonOrder: boolean;
   hide: boolean;
   themeId: number;
+  tvMenuId?: number | string | null;
   maxDistance: number;
   menuLang: string;
   tableOrderDiscountRate: number;
