@@ -114,21 +114,6 @@ export function MenuPage() {
 
   return (
     <div className="h-screen flex flex-col bg-background overflow-hidden">
-      {/* Restaurant Header - simplified for TV */}
-      <RestaurantHeader />
-
-      {/* Category Tabs */}
-      <CategoryTabs
-        categories={categories}
-        activeCategory={currentSection?.id || ""}
-        onCategoryChange={() => {}}
-        campaignTab={
-          campaignProducts.length > 0
-            ? { id: CAMPAIGN_CATEGORY_ID, name: t("menu.campaignProducts"), count: campaignProducts.length }
-            : null
-        }
-      />
-
       {/* Current Category Title */}
       <div className="px-6 py-4 bg-primary/5 border-b border-border">
         <h2 className="font-display text-2xl lg:text-3xl font-bold text-foreground text-center">
