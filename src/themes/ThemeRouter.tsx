@@ -90,9 +90,9 @@ function EmptyMenuFallback() {
 
 export function ThemeRouter() {
   const { isLoading, error } = useInitializeRestaurant();
-  const { themeId, products } = useRestaurantStore(
+  const { tvMenuId, products } = useRestaurantStore(
     useShallow((s) => ({
-      themeId: s.restaurantData.themeId,
+      tvMenuId: s.restaurantData.tvMenuId,
       products: s.restaurantData.products,
     }))
   );
@@ -108,7 +108,7 @@ export function ThemeRouter() {
   if (error) return <ErrorFallback error={error} />;
   if (!products || products.length === 0) return <EmptyMenuFallback />;
 
-  const resolvedThemeId = themeId ?? DEFAULT_THEME_ID;
+  const resolvedThemeId = tvMenuId ?? DEFAULT_THEME_ID;
   const ThemeComponent = themeComponents[resolvedThemeId];
 
   if (!ThemeComponent) {
