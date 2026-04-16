@@ -1,9 +1,10 @@
-/**
- * Theme 2 — Candy Purple/Cyan theme
- * 
- * Features: violet/cyan palette, Quicksand + Poppins fonts,
- * horizontal product cards, scrolling marquee banner.
- */
-
 import "./theme.css";
-export { MenuPage as default } from "./MenuPage";
+import { MenuPage } from "./MenuPage";
+
+export default function Theme2() {
+  return (
+    <div className="theme-2">
+      <MenuPage />
+    </div>
+  );
+}
