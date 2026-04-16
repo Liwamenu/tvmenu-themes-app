@@ -108,7 +108,7 @@ export function ThemeRouter() {
   if (error) return <ErrorFallback error={error} />;
   if (!products || products.length === 0) return <EmptyMenuFallback />;
 
-  console.log('[ThemeRouter] tvMenuId from API:', tvMenuId);
+  const resolvedThemeId = tvMenuId != null ? tvMenuId : DEFAULT_THEME_ID;
   const resolvedThemeId = tvMenuId != null ? tvMenuId : DEFAULT_THEME_ID;
   const ThemeComponent = themeComponents[resolvedThemeId];
 
